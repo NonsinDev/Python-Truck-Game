@@ -76,7 +76,7 @@ class Game:
         self.width = 1280
         self.height = 720
         self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption("Top-Down Transport Spiel")
+        pygame.display.set_caption("Cargo Clash: Sky Heist")
         
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
@@ -280,7 +280,7 @@ class Game:
     def draw(self):
         if self.state == STATE_MENU:
             self.screen.fill(BLUE)
-            title = self.large_font.render("TRUCK TRANSPORT", True, WHITE)
+            title = self.large_font.render("CARGO CLASH: SKY HEIST", True, WHITE)
             self.screen.blit(title, title.get_rect(center=(self.width//2, 100)))
             self.btn_play.draw(self.screen)
             self.btn_quit.draw(self.screen)
