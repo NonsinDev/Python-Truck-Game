@@ -1,5 +1,6 @@
 import pygame
-from constants import BLACK
+from game.constants import BLACK
+
 
 class Button:
     def __init__(self, x, y, width, height, text, font, color, hover_color):
@@ -11,12 +12,12 @@ class Button:
         self.is_hovered = False
 
     def draw(self, surface):
-        c = self.hover_color if self.is_hovered else self.color
-        pygame.draw.rect(surface, c, self.rect)
+        current_color = self.hover_color if self.is_hovered else self.color
+        pygame.draw.rect(surface, current_color, self.rect)
         pygame.draw.rect(surface, BLACK, self.rect, 2)
-        text_surf = self.font.render(self.text, True, BLACK)
-        text_rect = text_surf.get_rect(center=self.rect.center)
-        surface.blit(text_surf, text_rect)
+        text_surface = self.font.render(self.text, True, BLACK)
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        surface.blit(text_surface, text_rect)
 
     def check_hover(self, mouse_pos):
         self.is_hovered = self.rect.collidepoint(mouse_pos)

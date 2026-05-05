@@ -1,3 +1,4 @@
+# Colors as RGB tuples
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (100, 100, 100)
@@ -10,6 +11,7 @@ YELLOW = (220, 220, 50)
 BROWN = (139, 69, 19)
 ORANGE = (255, 165, 0)
 
+# Game states
 STATE_MENU = 0
 STATE_SETTINGS = 1
 STATE_PLAYING = 2

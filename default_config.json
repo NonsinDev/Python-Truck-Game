@@ -1,0 +1,32 @@
+{
+    "Easy": {
+        "max_speed": 8.0,
+        "fuel_consumption": 0.01,
+        "max_cargo": 15,
+        "win_ore_amount": 50,
+        "fail_stolen_amount": 100,
+        "heli_speed": 2.0,
+        "heli_steal_amount": 3,
+        "heli_leaves": true
+    },
+    "Normal": {
+        "max_speed": 6.0,
+        "fuel_consumption": 0.03,
+        "max_cargo": 10,
+        "win_ore_amount": 100,
+        "fail_stolen_amount": 50,
+        "heli_speed": 3.0,
+        "heli_steal_amount": 5,
+        "heli_leaves": true
+    },
+    "Hard": {
+        "max_speed": 4.0,
+        "fuel_consumption": 0.05,
+        "max_cargo": 10,
+        "win_ore_amount": 100,
+        "fail_stolen_amount": 30,
+        "heli_speed": 5.0,
+        "heli_steal_amount": 8,
+        "heli_leaves": false
+    }
+}
