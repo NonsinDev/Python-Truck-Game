@@ -20,19 +20,62 @@ In **Cargo Clash: Sky Heist** ist dein Ziel, eine bestimmte Menge an Fracht vom 
 - **Dynamisches HUD:** Behalte deine Punkte, Ladung und den Benzinstand immer im Blick.
 - **Herausfordernde KI:** Der Hubschrauber agiert je nach Schwierigkeitsgrad aggressiver.
 - **Sieg & Niederlage:** Erreiche das Zielgewicht, um zu gewinnen, aber lass nicht zu, dass der Hubschrauber zu viel stiehlt!
+- **Zufälliges Kartenlayout:** Jede Runde platziert die Gebäude auf neuen Positionen im Straßennetz.
+- **Straßennetz:** Gebäude werden an Knotenpunkten eines festen Rasters verbunden – mit automatisch gezeichneten Straßen.
+- **Pause-Menü:** ESC pausiert das Spiel und bietet Optionen zum Weiterspielen, Neustarten oder zum Hauptmenü zurückzukehren.
 
 ---
 
 ## 🛠️ Installation
 
-Stelle sicher, dass du Python installiert hast. Du benötigst außerdem die `pygame` Bibliothek.
+### Windows
 
-1. **Repository klonen oder herunterladen.**
-2. **Abhängigkeiten installieren:**
-   ```bash
-   pip install pygame
+> **Hinweis:** Das Spiel nutzt Python 3.14. Da `pygame` diese Version noch nicht offiziell unterstützt, wird `pygame-ce` (Community Edition) verwendet – ein vollständiger Drop-in-Ersatz.
+
+1. **[uv](https://docs.astral.sh/uv/getting-started/installation/) installieren** (moderner Python-Paketmanager):
+   ```powershell
+   winget install astral-sh.uv
    ```
-3. **Spiel starten:**
+2. **Repository klonen oder herunterladen.**
+3. **Virtuelle Umgebung erstellen und aktivieren:**
+   ```powershell
+   uv venv .venv
+   .venv\Scripts\Activate.ps1
+   ```
+   > Falls die Ausführung von Skripten blockiert wird:
+   > ```powershell
+   > Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+   > ```
+4. **Abhängigkeiten installieren:**
+   ```powershell
+   uv pip install pygame-ce
+   ```
+5. **Spiel starten:**
+   ```powershell
+   python main.py
+   ```
+
+---
+
+### Linux
+
+1. **Python 3 und pip sicherstellen:**
+   ```bash
+   sudo apt install python3 python3-pip python3-venv  # Debian/Ubuntu
+   # oder
+   sudo dnf install python3 python3-pip               # Fedora
+   ```
+2. **Repository klonen oder herunterladen.**
+3. **Virtuelle Umgebung erstellen und aktivieren:**
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+4. **Abhängigkeiten installieren:**
+   ```bash
+   pip install pygame-ce
+   ```
+5. **Spiel starten:**
    ```bash
    python main.py
    ```
@@ -42,18 +85,21 @@ Stelle sicher, dass du Python installiert hast. Du benötigst außerdem die `pyg
 ## ⌨️ Steuerung
 
 - **W, A, S, D:** LKW bewegen
+- **ESC:** Spiel pausieren / Pause-Menü öffnen
 - **Maus:** Menüs bedienen und Einstellungen anpassen
 
 ---
 
 ## 📂 Projektstruktur
 
-- `main.py`: Die Hauptklasse, welche den Spielverlauf und die Menüs steuert.
-- `fahrzeug.py`: Logik für den LKW (Bewegung, Kraftstoff, Ladung).
-- `hubschrauber.py`: Die KI des gegnerischen Hubschraubers.
-- `gebaeude.py`: Definitionen für Tankstelle, Lager und Endpunkt.
-- `constants.py`: Farben und Spielzustände.
+- `main.py`: Hauptklasse – Spielverlauf, Menüs, Pause und Kartengenerierung.
+- `game/truck.py`: Logik für den LKW (Bewegung, Kraftstoff, Ladung).
+- `game/helicopter.py`: KI des gegnerischen Hubschraubers.
+- `game/building.py`: Definitionen für Tankstelle, Lager und Endpunkt.
+- `game/button.py`: Wiederverwendbare Button-Komponente.
+- `game/constants.py`: Farben und Spielzustände.
 - `config.json`: Speichert deine aktuellen Einstellungen.
+- `default_config.json`: Standardwerte für alle Spielmodi.
 
 ---
 
