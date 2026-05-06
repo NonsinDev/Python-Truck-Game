@@ -116,7 +116,3 @@ class Helicopter:
         p4_y = self.y + math.sin(math.radians(self.rotor_angle + 270)) * 30
         pygame.draw.line(surface, BLACK, (p3_x, p3_y), (p4_x, p4_y), 3)
 
-        if self.state == "STEALING":
-            font = pygame.font.Font(None, 24)
-            text = font.render("Thief!", True, RED)
-            surface.blit(text, (self.x - 20, self.y - 40))
