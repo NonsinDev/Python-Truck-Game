@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 import json
+import random
 
 from game.constants import *
 from game.button import Button
@@ -67,10 +68,12 @@ class Game:
         self.mouse_pos = (0, 0)
         self.debug_mode = False
 
-        # Buildings
-        self.gas_station = Building(20, 20, 160, 100, YELLOW, "Gas Station")
-        self.warehouse = Building(self.width - 180, 20, 160, 100, RED, "Warehouse")
-        self.delivery = Building(self.width - 180, self.height - 120, 160, 100, GREEN, "Delivery")
+        # Buildings (set in reset_game via random placement)
+        self.gas_station = None
+        self.warehouse = None
+        self.delivery = None
+        self._road_nodes = []   # list of (x, y) node centers
+        self._road_edges = []   # list of (i, j) index pairs
 
         # Main menu buttons
         self.btn_play = Button(self.width // 2 - 100, 250, 200, 60, "Play", self.font, WHITE, YELLOW)
@@ -98,8 +101,37 @@ class Game:
         self.minus_buttons = []
         self.running = True
 
+    def _place_buildings_random(self):
+        bw, bh = 160, 100
+        # Build a 3x2 grid of node centres, evenly spaced with margins
+        mx = 100 + bw // 2
+        my = 80  + bh // 2
+        xs = [mx, self.width // 2, self.width  - mx]
+        ys = [my, self.height - my]
+        # nodes indexed row-major: 0 1 2 / 3 4 5
+        nodes = [(x, y) for y in ys for x in xs]
+        # edges: all horizontal + all vertical neighbours
+        edges = [
+            (0, 1), (1, 2),          # top row
+            (3, 4), (4, 5),          # bottom row
+            (0, 3), (1, 4), (2, 5),  # columns
+        ]
+        self._road_nodes = nodes
+        self._road_edges = edges
+
+        # Pick 3 distinct nodes randomly for the 3 buildings
+        chosen = random.sample(range(len(nodes)), 3)
+        def make(idx, color, label):
+            cx, cy = nodes[idx]
+            return Building(cx - bw // 2, cy - bh // 2, bw, bh, color, label)
+
+        self.gas_station = make(chosen[0], YELLOW, "Gas Station")
+        self.warehouse   = make(chosen[1], RED,    "Warehouse")
+        self.delivery    = make(chosen[2], GREEN,  "Delivery")
+
     def reset_game(self):
-        self.truck = Truck(150, 110, self.config)
+        self._place_buildings_random()
+        self.truck = Truck(self.width // 2, self.height // 2, self.config)
         self.score = 0
         self.helicopter = Helicopter(self.config)
         self.message = "Move the truck with W, A, S, D"
@@ -181,9 +213,22 @@ class Game:
                         self.state = STATE_MENU
 
             elif self.state == STATE_PLAYING:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.state = STATE_PAUSED
+
+            elif self.state == STATE_PAUSED:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.state = STATE_PLAYING
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if self.btn_ingame_menu.is_hovered:
+                    if self.btn_pause_continue.is_hovered:
+                        self.state = STATE_PLAYING
+                    elif self.btn_pause_reset.is_hovered:
+                        self.reset_game()
+                        self.state = STATE_PLAYING
+                    elif self.btn_pause_menu.is_hovered:
                         self.state = STATE_MENU
+                    elif self.btn_pause_quit.is_hovered:
+                        self.running = False
 
     def update(self):
         if self.state == STATE_MENU:
@@ -248,17 +293,34 @@ class Game:
         # Green background (grass)
         self.screen.fill(DARK_GREEN)
 
-        # Draw roads
-        pygame.draw.rect(self.screen, GRAY, (130, 90, 640, 40))
-        pygame.draw.rect(self.screen, GRAY, (130, 90, 40, 400))
-        pygame.draw.rect(self.screen, GRAY, (130, 450, 640, 40))
-
-        # Draw road markings
-        for x in range(130, 770, 40):
-            pygame.draw.rect(self.screen, WHITE, (x, 108, 20, 4))
-            pygame.draw.rect(self.screen, WHITE, (x, 468, 20, 4))
-        for y in range(90, 490, 40):
-            pygame.draw.rect(self.screen, WHITE, (148, y, 4, 20))
+        # Draw road network
+        road_w = 40
+        if self._road_nodes:
+            # Lines between nodes
+            for (i, j) in self._road_edges:
+                x1, y1 = self._road_nodes[i]
+                x2, y2 = self._road_nodes[j]
+                pygame.draw.line(self.screen, GRAY, (x1, y1), (x2, y2), road_w)
+            # Circles at intersections to round the corners
+            for (x, y) in self._road_nodes:
+                pygame.draw.circle(self.screen, GRAY, (x, y), road_w // 2)
+            # Center dashes on each road segment
+            for (i, j) in self._road_edges:
+                x1, y1 = self._road_nodes[i]
+                x2, y2 = self._road_nodes[j]
+                dx, dy = x2 - x1, y2 - y1
+                length = max(1, (dx**2 + dy**2) ** 0.5)
+                nx, ny = dx / length, dy / length
+                dash_len, gap = 20, 20
+                step = dash_len + gap
+                pos = step
+                while pos + dash_len < length:
+                    sx = int(x1 + nx * pos)
+                    sy = int(y1 + ny * pos)
+                    ex = int(x1 + nx * (pos + dash_len))
+                    ey = int(y1 + ny * (pos + dash_len))
+                    pygame.draw.line(self.screen, WHITE, (sx, sy), (ex, ey), 2)
+                    pos += step
 
     def draw(self):
         if self.state == STATE_MENU:
