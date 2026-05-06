@@ -28,57 +28,11 @@ In **Cargo Clash: Sky Heist** ist dein Ziel, eine bestimmte Menge an Fracht vom 
 
 ## 🛠️ Installation
 
-### Windows
+> **Hinweis:** Das Spiel nutzt `pygame-ce` (Community Edition) als Abhängigkeit.
 
-> **Hinweis:** Das Spiel nutzt Python 3.14. Da `pygame` diese Version noch nicht offiziell unterstützt, wird `pygame-ce` (Community Edition) verwendet – ein vollständiger Drop-in-Ersatz.
-
-1. **[uv](https://docs.astral.sh/uv/getting-started/installation/) installieren** (moderner Python-Paketmanager):
-   ```powershell
-   winget install astral-sh.uv
-   ```
-2. **Repository klonen oder herunterladen.**
-3. **Virtuelle Umgebung erstellen und aktivieren:**
-   ```powershell
-   uv venv .venv
-   .venv\Scripts\Activate.ps1
-   ```
-   > Falls die Ausführung von Skripten blockiert wird:
-   > ```powershell
-   > Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
-   > ```
-4. **Abhängigkeiten installieren:**
-   ```powershell
-   uv pip install pygame-ce
-   ```
-5. **Spiel starten:**
-   ```powershell
-   python main.py
-   ```
-
----
-
-### Linux
-
-1. **Python 3 und pip sicherstellen:**
-   ```bash
-   sudo apt install python3 python3-pip python3-venv  # Debian/Ubuntu
-   # oder
-   sudo dnf install python3 python3-pip               # Fedora
-   ```
-2. **Repository klonen oder herunterladen.**
-3. **Virtuelle Umgebung erstellen und aktivieren:**
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-4. **Abhängigkeiten installieren:**
-   ```bash
-   pip install pygame-ce
-   ```
-5. **Spiel starten:**
-   ```bash
-   python main.py
-   ```
+```
+pip install pygame-ce
+```
 
 ---
 
