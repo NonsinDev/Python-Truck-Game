@@ -79,7 +79,13 @@ class Game:
         # Settings screen buttons
         self.btn_start_game = Button(self.width - 250, self.height - 80, 200, 50, "Start Game", self.font, WHITE, GREEN)
         self.btn_back = Button(50, self.height - 80, 250, 50, "Back to Menu", self.font, WHITE, YELLOW)
-        self.btn_ingame_menu = Button(self.width - 160, self.height - 60, 150, 40, "Menu", self.font, WHITE, YELLOW)
+        
+
+        # Pause menu buttons
+        self.btn_pause_continue = Button(self.width // 2 - 100, 180, 200, 60, "Continue", self.font, WHITE, GREEN)
+        self.btn_pause_reset    = Button(self.width // 2 - 100, 260, 200, 60, "Reset",    self.font, WHITE, ORANGE)
+        self.btn_pause_menu     = Button(self.width // 2 - 100, 340, 200, 60, "Main Menu", self.font, WHITE, YELLOW)
+        self.btn_pause_quit     = Button(self.width // 2 - 100, 420, 200, 60, "Quit",     self.font, WHITE, RED)
 
         # Mode buttons
         self.mode_buttons = {}
@@ -229,7 +235,11 @@ class Game:
             if self.helicopter.total_stolen >= self.config["fail_stolen_amount"]:
                 self.state = STATE_GAME_OVER
 
-            self.btn_ingame_menu.check_hover(self.mouse_pos)
+        elif self.state == STATE_PAUSED:
+            self.btn_pause_continue.check_hover(self.mouse_pos)
+            self.btn_pause_reset.check_hover(self.mouse_pos)
+            self.btn_pause_menu.check_hover(self.mouse_pos)
+            self.btn_pause_quit.check_hover(self.mouse_pos)
 
         elif self.state in [STATE_WIN, STATE_GAME_OVER]:
             self.btn_back.check_hover(self.mouse_pos)
@@ -353,8 +363,6 @@ class Game:
                 pygame.draw.rect(self.screen, BLACK, bg_rect)
                 self.screen.blit(no_fuel, text_pos)
 
-            self.btn_ingame_menu.draw(self.screen)
-
             if self.debug_mode:
                 debug_lines = [
                     f"DEBUG MODE",
@@ -368,6 +376,34 @@ class Game:
                 for i, line in enumerate(debug_lines):
                     text_surf = debug_font.render(line, True, ORANGE)
                     self.screen.blit(text_surf, (10, self.height - 165 + i * 20))
+
+        elif self.state == STATE_PAUSED:
+            # Draw the game behind the overlay
+            self.draw_background()
+            self.gas_station.draw(self.screen, self.font)
+            self.warehouse.draw(self.screen, self.font)
+            self.delivery.draw(self.screen, self.font)
+            self.truck.draw(self.screen)
+            if self.helicopter:
+                self.helicopter.draw(self.screen)
+
+            # Semi-transparent overlay
+            overlay = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 160))
+            self.screen.blit(overlay, (0, 0))
+
+            # Pause box
+            box = pygame.Rect(self.width // 2 - 130, 120, 260, 380)
+            pygame.draw.rect(self.screen, DARK_GRAY, box, border_radius=12)
+            pygame.draw.rect(self.screen, WHITE, box, 2, border_radius=12)
+
+            pause_title = self.large_font.render("PAUSED", True, WHITE)
+            self.screen.blit(pause_title, pause_title.get_rect(center=(self.width // 2, 160)))
+
+            self.btn_pause_continue.draw(self.screen)
+            self.btn_pause_reset.draw(self.screen)
+            self.btn_pause_menu.draw(self.screen)
+            self.btn_pause_quit.draw(self.screen)
 
         elif self.state == STATE_WIN:
             self.screen.fill(GREEN)
