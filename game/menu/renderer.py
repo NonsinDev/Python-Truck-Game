@@ -1,17 +1,10 @@
-import os
 import pygame
 
 from game.constants import *
 
 
 class MenuRenderer:
-    # --- LKW-Bild ---
-    TRUCK_OFFSET_X = 0    # horizontaler Versatz vom Zentrum (positiv = rechts)
-    TRUCK_OFFSET_Y = 150  # Y-Position von oben
-
-    # --- Titel-Bild ---
-    TITLE_SCALE = 8.0  # Skalierungsfaktor (1.0 = Originalgröße)
-    TITLE_Y     = 140  # Y-Mitte des Titelbildes
+    TITLE_Y = 140
 
     def __init__(self, screen, width, height, font, large_font):
         self.screen = screen
@@ -20,31 +13,10 @@ class MenuRenderer:
         self.font = font
         self.large_font = large_font
 
-        # Titelbild (ersetzt den Text)
-        self.menu_title = None
-        for ext in ("png", "jpg", "jpeg", "bmp"):
-            img_path = os.path.join("assets", f"menu_title.{ext}")
-            if os.path.exists(img_path):
-                raw = pygame.image.load(img_path).convert_alpha()
-                if self.TITLE_SCALE != 1.0:
-                    w = int(raw.get_width() * self.TITLE_SCALE)
-                    h = int(raw.get_height() * self.TITLE_SCALE)
-                    raw = pygame.transform.scale(raw, (w, h))
-                self.menu_title = raw
-                break
-
-    def draw_menu(self, background, btn_play, btn_quit):
-        if not background.draw(self.screen):
-            self.screen.fill(BLUE)
-        if background.menu_truck:
-            truck = background.menu_truck
-            x = (self.width - truck.get_width()) // 2 + self.TRUCK_OFFSET_X
-            self.screen.blit(truck, (x, self.TRUCK_OFFSET_Y))
-        if self.menu_title:
-            self.screen.blit(self.menu_title, self.menu_title.get_rect(center=(self.width // 2, self.TITLE_Y)))
-        else:
-            title = self.large_font.render("CARGO CLASH: SKY HEIST", True, WHITE)
-            self.screen.blit(title, title.get_rect(center=(self.width // 2, self.TITLE_Y)))
+    def draw_menu(self, btn_play, btn_quit):
+        self.screen.fill(BLUE)
+        title = self.large_font.render("CARGO CLASH: SKY HEIST", True, WHITE)
+        self.screen.blit(title, title.get_rect(center=(self.width // 2, self.TITLE_Y)))
         btn_play.draw(self.screen)
         btn_quit.draw(self.screen)
 

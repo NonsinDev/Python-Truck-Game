@@ -6,7 +6,6 @@ from game.button import Button
 from game.truck import Truck
 from game.helicopter import Helicopter
 from game.config import GAME_MODES
-from game.menu.background import ScrollBackground
 from game.menu.renderer import MenuRenderer
 from game.map import GameMap
 from game.renderer import GameRenderer
@@ -37,7 +36,6 @@ class Game:
         self.debug_mode = False
 
         self.game_map = GameMap(self.width, self.height)
-        self.background = ScrollBackground(self.width, self.height)
         self.menu_renderer = MenuRenderer(self.screen, self.width, self.height, self.font, self.large_font)
         self.game_renderer = GameRenderer(self.screen, self.width, self.height, self.font, self.large_font)
 
@@ -158,7 +156,6 @@ class Game:
         if self.state == STATE_MENU:
             self.btn_play.check_hover(self.mouse_pos)
             self.btn_quit.check_hover(self.mouse_pos)
-            self.background.update()
 
         elif self.state == STATE_SETTINGS:
             self.btn_start_game.check_hover(self.mouse_pos)
@@ -211,7 +208,7 @@ class Game:
 
     def draw(self):
         if self.state == STATE_MENU:
-            self.menu_renderer.draw_menu(self.background, self.btn_play, self.btn_quit)
+            self.menu_renderer.draw_menu(self.btn_play, self.btn_quit)
         elif self.state == STATE_SETTINGS:
             self.menu_renderer.draw_settings(self)
         elif self.state == STATE_PLAYING:
