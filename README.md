@@ -1,34 +1,34 @@
 # 🚛 Cargo Clash: Sky Heist 🚁
 
-**Cargo Clash: Sky Heist** ist ein spannendes Top-Down Transport-Spiel, entwickelt mit Python und Pygame. Du steuerst einen LKW, lieferst wertvolle Fracht ab und musst dich vor einem diebischen Hubschrauber in Acht nehmen, der versucht, deine Ladung direkt von der Ladefläche zu stehlen!
+**Cargo Clash: Sky Heist** is an top-down transport game built with Python and Pygame. You drive a truck, deliver valuable cargo, and must watch out for a thieving helicopter that tries to steal your load right off the truck!
 
 ---
 
 ## 🎮 Gameplay
 
-In **Cargo Clash: Sky Heist** ist dein Ziel, eine bestimmte Menge an Fracht vom **Lager** zum **Endpunkt** zu transportieren. Aber Vorsicht:
-- **Tanken:** Dein LKW verbraucht Benzin. Halte rechtzeitig an der **Tankstelle** an!
-- **Der Bandit am Himmel:** Ein Hubschrauber verfolgt dich und stiehlt deine Ladung, wenn er dich einholt.
-- **Strategie:** Wähle deinen Modus und passe die Spieleinstellungen an, um die perfekte Herausforderung zu finden.
+Your goal in **Cargo Clash: Sky Heist** is to transport a set amount of cargo from the **Warehouse** to the **Delivery Point**. Watch out:
+- **Refuel:** Your truck consumes fuel. Stop at the **Gas Station** before you run out!
+- **The Sky Bandit:** A helicopter hunts you down and steals your cargo when it catches up.
+- **Strategy:** Choose a game mode and tweak the settings to find the right challenge.
 
 ---
 
 ## ✨ Features
 
-- **Drei Schwierigkeitsgrade:** Leicht, Normal und Schwer.
-- **Custom-Modus:** Passe Geschwindigkeit, Benzinverbrauch und Hubschrauber-Aggressivität individuell an.
-- **Dynamisches HUD:** Behalte deine Punkte, Ladung und den Benzinstand immer im Blick.
-- **Herausfordernde KI:** Der Hubschrauber agiert je nach Schwierigkeitsgrad aggressiver.
-- **Sieg & Niederlage:** Erreiche das Zielgewicht, um zu gewinnen, aber lass nicht zu, dass der Hubschrauber zu viel stiehlt!
-- **Zufälliges Kartenlayout:** Jede Runde platziert die Gebäude auf neuen Positionen im Straßennetz.
-- **Straßennetz:** Gebäude werden an Knotenpunkten eines festen Rasters verbunden – mit automatisch gezeichneten Straßen.
-- **Pause-Menü:** ESC pausiert das Spiel und bietet Optionen zum Weiterspielen, Neustarten oder zum Hauptmenü zurückzukehren.
+- **Three difficulty levels:** Easy, Normal, and Hard.
+- **Custom mode:** Adjust speed, fuel consumption, and helicopter aggression individually.
+- **Dynamic HUD:** Always keep track of your score, cargo, and fuel level.
+- **Challenging AI:** The helicopter becomes more aggressive on higher difficulties.
+- **Win & Lose conditions:** Reach the target score to win, but don't let the helicopter steal too much!
+- **Random map layout:** Each round places buildings at new positions on the road network.
+- **Road network:** Buildings are connected at fixed grid nodes with automatically drawn roads.
+- **Pause menu:** ESC pauses the game with options to continue, reset, or return to the main menu.
 
 ---
 
 ## 🛠️ Installation
 
-> **Hinweis:** Das Spiel nutzt `pygame-ce` (Community Edition) als Abhängigkeit.
+> **Note:** This game uses `pygame-ce` (Community Edition). PNG image loading is built in via SDL2 — no extra dependencies needed.
 
 ```
 pip install pygame-ce
@@ -36,29 +36,29 @@ pip install pygame-ce
 
 ---
 
-## ⌨️ Steuerung
+## ⌨️ Controls
 
-- **W / S:** LKW vorwärts / rückwärts
-- **A / D:** LKW lenken
-- **ESC:** Spiel pausieren / Pause-Menü öffnen
-- **Maus:** Menüs bedienen und Einstellungen anpassen
-- **Strg + Start Game:** Debug-Modus aktivieren
-
----
-
-## 📂 Projektstruktur
-
-- `main.py`: Hauptklasse – Spielschleife, Zustände, Events und Logik.
-- `default_config.json`: Standardwerte für alle Spielmodi (Easy, Normal, Hard).
-- `game/constants.py`: Farben und Spielzustände.
-- `game/button.py`: Wiederverwendbare Button-Komponente.
-- `game/building.py`: Zeichnung und Kollision für Gebäude.
-- `game/map.py`: Kartengenerierung mit zufälligen Gebäudepositionen und Straßennetz.
-- `game/truck.py`: LKW-Logik (Bewegung, Kraftstoff, Ladung).
-- `game/helicopter.py`: KI des gegnerischen Hubschraubers.
-- `game/renderer.py`: Zeichenlogik für Spielbildschirm, Pause und Endbildschirme.
-- `game/menu/renderer.py`: Zeichenlogik für Hauptmenü und Einstellungsscreen.
+- **W / S:** Drive forward / reverse
+- **A / D:** Steer left / right
+- **ESC:** Pause / open pause menu
+- **Mouse:** Navigate menus and adjust settings
+- **Ctrl + Start Game:** Enable debug mode (shows speed, position, helicopter state)
 
 ---
 
-Viel Erfolg beim Transportieren! Pass auf deinen Rücken (und dein Dach) auf! 🚛💨
+## 📂 Project Structure
+
+- `main.py`: Main class — game loop, states, events, and collision logic.
+- `default_config.json`: Default values for all game modes (Easy, Normal, Hard).
+- `assets/`: Images used in the main menu (background, logo, truck).
+- `game/constants.py`: Colors and game state constants.
+- `game/button.py`: Reusable button component.
+- `game/building.py`: Drawing and collision for buildings.
+- `game/map.py`: Map generation with random building placement and road network.
+- `game/truck.py`: Truck logic (movement, fuel, cargo).
+- `game/helicopter.py`: Enemy helicopter AI.
+- `game/renderer.py`: Drawing logic for the game screen, pause screen, and end screens.
+- `game/menu/renderer.py`: Drawing logic for the main menu and settings screen.
+
+---
+
