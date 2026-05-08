@@ -1,10 +1,13 @@
+import os
 import pygame
 
 from game.constants import *
 
+# Absolute path to the assets/ folder, independent of the working directory
+ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "assets")
+
 
 class MenuRenderer:
-    TITLE_Y = 140
 
     def __init__(self, screen, width, height, font, large_font):
         self.screen = screen
@@ -13,10 +16,33 @@ class MenuRenderer:
         self.font = font
         self.large_font = large_font
 
+        # Scale background to screen size (.convert() for performance, no transparency needed)
+        bg_raw = pygame.image.load(os.path.join(ASSETS_DIR, "menu_bg.png")).convert()
+        self.bg = pygame.transform.scale(bg_raw, (width, height))
+
+        # Logo: fixed width, height calculated proportionally (.convert_alpha() for transparency)
+        logo_raw = pygame.image.load(os.path.join(ASSETS_DIR, "menu_title.png")).convert_alpha()
+        logo_w = 550
+        logo_h = int(logo_raw.get_height() * logo_w / logo_raw.get_width())
+        self.logo = pygame.transform.scale(logo_raw, (logo_w, logo_h))
+
+        # Truck: 130% of one third of the screen width, height proportional
+        truck_raw = pygame.image.load(os.path.join(ASSETS_DIR, "menu_truck.png")).convert_alpha()
+        truck_w = int((width // 3) * 1.3)
+        truck_h = int(truck_raw.get_height() * truck_w / truck_raw.get_width())
+        self.truck = pygame.transform.scale(truck_raw, (truck_w, truck_h))
+
     def draw_menu(self, btn_play, btn_quit):
-        self.screen.fill(BLUE)
-        title = self.large_font.render("CARGO CLASH: SKY HEIST", True, WHITE)
-        self.screen.blit(title, title.get_rect(center=(self.width // 2, self.TITLE_Y)))
+        self.screen.blit(self.bg, (0, 0))
+
+        # Logo centered near top
+        logo_rect = self.logo.get_rect(center=(self.width // 2 , 160))
+        self.screen.blit(self.logo, logo_rect)
+
+        # Truck centered at bottom
+        truck_rect = self.truck.get_rect(midbottom=(self.width // 2 + 125, self.height + 80))
+        self.screen.blit(self.truck, truck_rect)
+
         btn_play.draw(self.screen)
         btn_quit.draw(self.screen)
 

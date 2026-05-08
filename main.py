@@ -40,8 +40,8 @@ class Game:
         self.game_renderer = GameRenderer(self.screen, self.width, self.height, self.font, self.large_font)
 
         # Main menu buttons
-        self.btn_play = Button(self.width // 2 - 100, 250, 200, 60, "Play", self.font, WHITE, YELLOW)
-        self.btn_quit = Button(self.width // 2 - 100, 350, 200, 60, "Quit", self.font, WHITE, RED)
+        self.btn_play = Button(self.width // 2 - 100, 440, 200, 60, "Play", self.font, GRAY, YELLOW)
+        self.btn_quit = Button(self.width // 2 - 100, 530, 200, 60, "Quit", self.font, GRAY, RED)
 
         # Settings screen buttons
         self.btn_start_game = Button(self.width - 250, self.height - 80, 200, 50, "Start Game", self.font, WHITE, GREEN)
