@@ -223,5 +223,9 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    try:
+        game = Game()
+        game.run()
+    except KeyboardInterrupt:
+        pygame.quit()
+        sys.exit(0)

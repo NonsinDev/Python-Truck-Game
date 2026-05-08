@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from game.constants import DARK_GRAY, BLACK, RED
+from game.constants import DARK_GRAY, BLACK
 
 
 class Helicopter:

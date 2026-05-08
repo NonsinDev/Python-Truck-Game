@@ -1,6 +1,6 @@
 import pygame
 import math
-from game.constants import BLUE, YELLOW, BROWN, RED, GREEN
+from game.constants import BLUE, BROWN, RED, GREEN
 
 
 class Truck:
@@ -43,17 +43,11 @@ class Truck:
                 self.speed += self.acceleration
                 self.fuel -= self.fuel_consumption
             elif keys[pygame.K_s]:
-                self.speed -= self.acceleration
+                self.speed -= self.acceleration * 0.5
                 self.fuel -= self.fuel_consumption
 
         # Apply friction
         self.speed *= self.friction
-
-        # Clamp speed
-        if self.speed > self.max_speed:
-            self.speed = self.max_speed
-        elif self.speed < -self.max_speed * 0.4:
-            self.speed = -self.max_speed * 0.4
 
         # Move truck based on angle
         rad = math.radians(self.angle)
@@ -68,9 +62,9 @@ class Truck:
         vehicle_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
         # Draw body
-        pygame.draw.rect(vehicle_surface, BLUE, (0, 0, self.width, self.height))
+        pygame.draw.rect(vehicle_surface, RED, (0, 0, self.width, self.height))
         # Draw cab
-        pygame.draw.rect(vehicle_surface, YELLOW, (self.width - 12, 2, 10, self.height - 4))
+        pygame.draw.rect(vehicle_surface, BLUE, (self.width - 12, 2, 10, self.height - 4))
 
         if self.cargo > 0:
             pygame.draw.rect(vehicle_surface, BROWN, (5, 2, 18, self.height - 4))

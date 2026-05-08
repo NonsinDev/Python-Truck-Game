@@ -18,6 +18,7 @@ class GameRenderer:
         if game.helicopter:
             game.helicopter.draw(self.screen)
 
+        # HUD top-left: current score and cargo
         ui_text = self.font.render(
             f"Score: {game.score}/{game.config['win_ore_amount']} | Cargo: {game.truck.cargo}/{game.truck.max_cargo}",
             True, WHITE
@@ -26,6 +27,7 @@ class GameRenderer:
         pygame.draw.rect(self.screen, BLACK, ui_bg)
         self.screen.blit(ui_text, (20, 15))
 
+        # HUD top-right: total cargo stolen by the helicopter
         heli_text = self.font.render(
             f"Stolen: {game.helicopter.total_stolen}/{game.config['fail_stolen_amount']}",
             True, RED
@@ -34,6 +36,7 @@ class GameRenderer:
         pygame.draw.rect(self.screen, BLACK, heli_bg)
         self.screen.blit(heli_text, heli_bg.move(10, 5))
 
+        # Event message centered at the bottom (e.g. "Cargo loaded!"), fades after a timer
         if game.message_timer > 0:
             msg_surface = self.font.render(game.message, True, WHITE)
             msg_rect = msg_surface.get_rect(center=(self.width // 2, self.height - 40))
@@ -42,6 +45,7 @@ class GameRenderer:
             self.screen.blit(msg_surface, msg_rect)
             game.message_timer -= 1
 
+        # Warning overlay when the truck runs out of fuel
         if game.truck.fuel <= 0:
             no_fuel = self.font.render("Out of fuel!", True, RED)
             text_pos = no_fuel.get_rect(center=(self.width // 2, self.height // 2))
@@ -49,6 +53,7 @@ class GameRenderer:
             pygame.draw.rect(self.screen, BLACK, bg_rect)
             self.screen.blit(no_fuel, text_pos)
 
+        # Debug overlay: enabled by holding Ctrl when clicking Start Game
         if game.debug_mode:
             debug_lines = [
                 "DEBUG MODE",
@@ -59,9 +64,12 @@ class GameRenderer:
                 f"Score={game.score}/{game.config['win_ore_amount']}",
             ]
             debug_font = pygame.font.Font(None, 24)
+            line_height = 20
+            # Vertically centered on the left side
+            start_y = self.height // 2 - (len(debug_lines) * line_height) // 2
             for i, line in enumerate(debug_lines):
                 text_surf = debug_font.render(line, True, ORANGE)
-                self.screen.blit(text_surf, (10, self.height - 165 + i * 20))
+                self.screen.blit(text_surf, (10, start_y + i * line_height))
 
     def draw_paused(self, game):
         game.game_map.draw_background(self.screen)
@@ -70,10 +78,12 @@ class GameRenderer:
         if game.helicopter:
             game.helicopter.draw(self.screen)
 
+        # Draw a semi-transparent overlay over the game
         overlay = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 160))
         self.screen.blit(overlay, (0, 0))
 
+        # Pause menu box
         box = pygame.Rect(self.width // 2 - 130, 120, 260, 380)
         pygame.draw.rect(self.screen, DARK_GRAY, box, border_radius=12)
         pygame.draw.rect(self.screen, WHITE, box, 2, border_radius=12)

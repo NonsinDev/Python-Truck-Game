@@ -42,7 +42,7 @@ class GameMap:
 
     def draw_background(self, screen):
         screen.fill(DARK_GREEN)
-        road_w = 60  # Straßenbreite in Pixel – hier anpassen
+        road_w = 60
         if not self._road_nodes:
             return
         for (i, j) in self._road_edges:
