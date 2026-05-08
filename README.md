@@ -38,22 +38,26 @@ pip install pygame-ce
 
 ## ⌨️ Steuerung
 
-- **W, A, S, D:** LKW bewegen
+- **W / S:** LKW vorwärts / rückwärts
+- **A / D:** LKW lenken
 - **ESC:** Spiel pausieren / Pause-Menü öffnen
 - **Maus:** Menüs bedienen und Einstellungen anpassen
+- **Strg + Start Game:** Debug-Modus aktivieren
 
 ---
 
 ## 📂 Projektstruktur
 
-- `main.py`: Hauptklasse – Spielverlauf, Menüs, Pause und Kartengenerierung.
-- `game/truck.py`: Logik für den LKW (Bewegung, Kraftstoff, Ladung).
-- `game/helicopter.py`: KI des gegnerischen Hubschraubers.
-- `game/building.py`: Definitionen für Tankstelle, Lager und Endpunkt.
-- `game/button.py`: Wiederverwendbare Button-Komponente.
+- `main.py`: Hauptklasse – Spielschleife, Zustände, Events und Logik.
+- `default_config.json`: Standardwerte für alle Spielmodi (Easy, Normal, Hard).
 - `game/constants.py`: Farben und Spielzustände.
-- `config.json`: Speichert deine aktuellen Einstellungen.
-- `default_config.json`: Standardwerte für alle Spielmodi.
+- `game/button.py`: Wiederverwendbare Button-Komponente.
+- `game/building.py`: Zeichnung und Kollision für Gebäude.
+- `game/map.py`: Kartengenerierung mit zufälligen Gebäudepositionen und Straßennetz.
+- `game/truck.py`: LKW-Logik (Bewegung, Kraftstoff, Ladung).
+- `game/helicopter.py`: KI des gegnerischen Hubschraubers.
+- `game/renderer.py`: Zeichenlogik für Spielbildschirm, Pause und Endbildschirme.
+- `game/menu/renderer.py`: Zeichenlogik für Hauptmenü und Einstellungsscreen.
 
 ---
 
